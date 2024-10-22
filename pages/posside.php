@@ -107,7 +107,6 @@ $opt .= "</select>";
 
      </div>
 <script>
-  // Listen for changes in the customer dropdown and update the hidden input
   document.querySelector('select[name="customer"]').addEventListener('change', function() {
     document.getElementById('hiddenCustomer').value = this.value;
   });

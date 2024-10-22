@@ -2,7 +2,7 @@
 include '../includes/connection.php';
 include '../includes/sidebar.php';
 
-// Secure SQL with prepared statement
+
 $query = 'SELECT ID, t.TYPE 
           FROM users u 
           JOIN type t ON t.TYPE_ID = u.TYPE_ID 
@@ -19,11 +19,11 @@ while ($row = mysqli_fetch_assoc($result)) {
                 alert("Restricted Page! You will be redirected to POS");
                 window.location = "pos.php";
               </script>';
-        exit; // Ensure script exits after redirection
+        exit; 
     }
 }
 
-// Fetch categories
+
 $sql = "SELECT DISTINCT CNAME, CATEGORY_ID FROM category ORDER BY CNAME ASC";
 $result = mysqli_query($db, $sql) or die("Bad SQL: $sql");
 
@@ -34,7 +34,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 $aaa .= "</select>";
 
-// Fetch suppliers
+
 $sql2 = "SELECT DISTINCT SUPPLIER_ID, COMPANY_NAME FROM supplier ORDER BY COMPANY_NAME ASC";
 $result2 = mysqli_query($db, $sql2) or die("Bad SQL: $sql2");
 
