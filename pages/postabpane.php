@@ -14,27 +14,26 @@ $query = "SELECT PRODUCT_CODE, MAX(PRODUCT_ID) AS PRODUCT_ID, MAX(NAME) AS NAME,
           GROUP BY PRODUCT_CODE 
           ORDER BY PRODUCT_CODE ASC";
 
-// Prepare the statement
+
 $stmt = $db->prepare($query);
 
 if ($stmt === false) {
     die('Error in query preparation: ' . $db->error);
 }
 
-// Bind the parameter to the prepared statement (in this case, category ID)
+
 $stmt->bind_param('i', $category_id);
 
-// Execute the query
+
 $stmt->execute();
 
-// Get the result set from the executed query
+
 $result = $stmt->get_result();
 
 if ($result === false) {
     die('Error in query execution: ' . $stmt->error);
 }
 
-// Fetch the data and output the products
 if ($result->num_rows > 0) {
     while ($product = $result->fetch_assoc()) {
         ?>
