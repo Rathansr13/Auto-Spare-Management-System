@@ -61,42 +61,54 @@ $opt .= "</select>";
 <?php endif; ?>       
           <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#posMODAL">SUBMIT</button>
 
-        <!-- Modal -->
-        <div class="modal fade" id="posMODAL" tabindex="-1" role="dialog" aria-labelledby="POS" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              
-              <div class="modal-body">
-                  <div class="form-group row text-left mb-2">
 
-                    <div class="col-sm-12 text-center">
-                      
-                      <h3 class="font-weight-bold py-3 bg-light">
-                        Rs. <?php echo number_format($total, 2); ?>
-                      </h3>
-                    </div>
+        <!-- FORM FOR TRANSACTION SUBMISSION -->
+<form method="POST" action="pos_transac.php">
 
-                  </div>
+<!-- Modal for payment -->
+<div class="modal fade" id="posMODAL" tabindex="-1" role="dialog" aria-labelledby="POS" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
 
-                    <div class="col-sm-12 mb-2">
-                      <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">Rs.</span>
-                        </div>
-                          <input class="form-control text-right" id="txtNumber" onkeypress="return isNumberKey(event)" type="text" name="cash" placeholder="Enter Amount to pay" name="cash" required>
-                    </div>
-                  </div>
-              </div>
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-primary btn-block">PROCEED TO PAYMENT</button>
-              </div>
-            </div>
+      <div class="modal-body">
+        <div class="form-group row text-left mb-2">
+          <div class="col-sm-12 text-center">
+            <h3 class="font-weight-bold py-3 bg-light">
+              Rs. <?php echo number_format($total, 2); ?>
+            </h3>
           </div>
         </div>
-        <!-- END OF Modal -->
 
-        </form>
+        <div class="col-sm-12 mb-2">
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Rs.</span>
+            </div>
+            <input class="form-control text-right" id="txtNumber" onkeypress="return isNumberKey(event)" type="text" name="cash" placeholder="Enter Amount to pay" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        
+<!-- Hidden fields to pass necessary data -->
+<input type="hidden" name="total" value="<?php echo $total; ?>">
+<input type="hidden" name="customer" id="hiddenCustomer" value="">
+<input type="hidden" name="date" value="<?php echo date("Y-m-d H:i:s"); ?>">
+
+        <button type="submit" class="btn btn-primary btn-block">PROCEED TO PAYMENT</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
       </div> <!-- END OF CARD BODY -->
 
      </div>
-
+<script>
+  // Listen for changes in the customer dropdown and update the hidden input
+  document.querySelector('select[name="customer"]').addEventListener('change', function() {
+    document.getElementById('hiddenCustomer').value = this.value;
+  });
+</script>

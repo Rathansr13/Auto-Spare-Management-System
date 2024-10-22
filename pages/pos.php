@@ -71,30 +71,78 @@ function pre_r($array){
                 <div class="col-lg-12">
                   <div class="card shadow mb-0">
                   <div class="card-header py-2">
-                    <h4 class="m-1 text-lg text-primary">Spare part category</h4>
+                  <h4 class="m-1 text-lg text-primary">Spare Parts </h4>
                   </div>
                         <!-- /.panel-heading -->
                         <div class="card-body">
                             <!-- Nav tabs -->
-                            <ul class="nav nav-tabs">
-                              <li class="nav-item">
-                                <a class="nav-link" href="#" data-target="#Electric_part" data-toggle="tab">Electric_parts</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="#" data-target="#Metal_parts" data-toggle="tab">Metal_parts</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="#Rubber_parts" data-toggle="tab">Rubber_parts</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="#Transmission_parts" data-toggle="tab">Tranmission_parts</a>
-                              </li>
-                             
-                            </ul>
+<form method="post" action="">
+    <ul class="nav nav-tabs">
+        <li class="nav-item" style="margin:5px;">
+            <button type="submit" name="category_id" value="1" class="nav-link">Electric Parts</button>
+        </li>
+        <li class="nav-item"  style="margin:5px;">
+            <button type="submit" name="category_id" value="2" class="nav-link">Metal Parts</button>
+        </li>
+        <li class="nav-item"  style="margin:5px;">
+            <button type="submit" name="category_id" value="3" class="nav-link">Rubber Parts</button>
+        </li>
+        <li class="nav-item"  style="margin:5px;">
+            <button type="submit" name="category_id" value="4" class="nav-link">Transmission Parts</button>
+        </li>
+    </ul>
+</form>
 
-<!-- TAB PANE AREA - ANG UNOD KA TABS ARA SA TABPANE.PHP -->
-<?php include 'postabpane.php'; ?>
-<!-- END TAB PANE AREA - ANG UNOD KA TABS ARA SA TABPANE.PHP -->
+
+
+    <div id="product-list" class="row">
+    <?php
+    include '../includes/connection.php';
+    $category_id = isset($_POST['category_id']) ? $_POST['category_id'] : 1;
+
+    $query = "SELECT PRODUCT_CODE, MAX(PRODUCT_ID) AS PRODUCT_ID, MAX(NAME) AS NAME, MAX(PRICE) AS PRICE 
+              FROM product 
+              WHERE CATEGORY_ID = ? 
+              GROUP BY PRODUCT_CODE 
+              ORDER BY PRODUCT_CODE ASC";
+    $stmt = $db->prepare($query);
+
+    if ($stmt === false) {
+        die('Error in query preparation: ' . $db->error);
+    }
+
+    $stmt->bind_param('i', $category_id);
+
+    $stmt->execute();
+    
+    $result = $stmt->get_result();
+
+    if ($result === false) {
+        die('Error in query execution: ' . $stmt->error);
+    }
+    if ($result->num_rows > 0) {
+        while ($product = $result->fetch_assoc()) {
+            ?>
+            <div class="col-sm-4 col-md-2" style="margin: 5px;">
+                <form method="post" action="pos.php?action=add&id=<?php echo $product['PRODUCT_ID']; ?>">
+                    <div class="products">
+                        <h6 class="text-info"><?php echo $product['NAME']; ?></h6>
+                        <h6>Rs. <?php echo $product['PRICE']; ?></h6>
+                        <input type="text" name="quantity" class="form-control" value="1" />
+                        <input type="hidden" name="name" value="<?php echo $product['NAME']; ?>" />
+                        <input type="hidden" name="price" value="<?php echo $product['PRICE']; ?>" />
+                        <input type="submit" name="addpos" style="margin-top:5px;" class="btn btn-info" value="Add" />
+                    </div>
+                </form>
+            </div>
+            <?php
+        }
+    } else {
+        echo "No products found.";
+    }
+    ?>
+</div>
+
 
         <div style="clear:both"></div>  
         <br />  
@@ -170,3 +218,4 @@ function pre_r($array){
 include 'posside.php';
 include'../includes/footer.php';
 ?>
+</script>

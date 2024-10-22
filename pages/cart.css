@@ -58,3 +58,18 @@ h3 {
       margin-top: 0px;
 }
  */
+
+ .products {
+    display: flex;
+    flex-direction: column; /* Arrange items vertically */
+    align-items: flex-start; /* Align items to the start */
+    padding: 10px; /* Add padding around the product box */
+    border: 1px solid #ddd; /* Optional: Add a border for clarity */
+    border-radius: 5px; /* Optional: Add rounded corners */
+    margin-bottom: 15px; /* Space between products */
+    background-color: #f9f9f9; /* Optional: Background color */
+}
+
+.btn-info {
+    width: 100%; /* Make the button full width */
+}

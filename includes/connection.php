@@ -1,5 +1,5 @@
 <?php
- $db = mysqli_connect('localhost', 'root', '') or
+ $db = mysqli_connect('localhost', 'root', 'root') or
         die ('Unable to connect. Check connection.');
-        mysqli_select_db($db, 'Spare_parts' ) or die(mysqli_error($db));
+        mysqli_select_db($db, 'spare_parts' ) or die(mysqli_error($db));
 ?>
